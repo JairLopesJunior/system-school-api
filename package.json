@@ -1,0 +1,22 @@
+{
+  "name": "system-school-api",
+  "version": "1.0.0",
+  "description": "Sistema escolar de matricula",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JairLopesJunior/system-school-api.git"
+  },
+  "author": "Jair Lopes Junior",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JairLopesJunior/system-school-api/issues"
+  },
+  "homepage": "https://github.com/JairLopesJunior/system-school-api#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
