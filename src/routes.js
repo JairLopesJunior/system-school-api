@@ -12,7 +12,7 @@ routes.get('/students', StudentController.getAll);
 routes.post('/students', StudentController.add);
 routes.delete('/students/:student_id', StudentController.delete);
 
-// routes.post('/registration', RegistrationController.add);
+routes.post('/registrations', RegistrationController.add);
 routes.delete('/registrations/:registration_id', RegistrationController.delete);
 
 module.exports = routes;

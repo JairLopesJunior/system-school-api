@@ -12,14 +12,14 @@ module.exports = {
         const { id, description, menu } = req.body;
 
         if (!description) {
-            return res.status(400).json({ error: 'Descrição é um campo obrigatório' });
+            return res.status(400).json({ error: 'Descrição é um campo obrigatório.' });
         }
         if (!menu) {
-            return res.status(400).json({ error: 'Ementa é um campo obrigatório' });
+            return res.status(400).json({ error: 'Ementa é um campo obrigatório.' });
         }
-
+    
         let courseFound = await Course.findByPk(id);
-
+    
         if(!courseFound){
             await Course.create({ description, menu });
             return res.status(201).json({ description, menu });
@@ -35,7 +35,7 @@ module.exports = {
         const courseFound = await Course.findByPk(course_id);
 
         if(!courseFound) {
-            return res.status(400).json({error: 'Curso não encontrado.'});
+            return res.status(404).json({error: 'Curso não encontrado.'});
         }
 
         courseFound.destroy();

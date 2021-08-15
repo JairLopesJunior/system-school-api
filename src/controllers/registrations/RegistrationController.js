@@ -1,29 +1,40 @@
-const { Registration } = require('../../app/models');
+const { CourseStudent, Course, Student } = require('../../app/models');
 
 
 module.exports = {
 
-    //   async add(req, res){
-    //     const { course_id, student_id } = req.body;
+      async add(req, res){
+        const { id, code_course, code_student } = req.body;
 
-    //     let courseFound = await Registration.findByPk(id);
+        let courseStudentFound = await CourseStudent.findByPk(id);
 
-    //     if(!courseFound){
-    //         await Course.create({ description, menu });
-    //         return res.status(201).json({ description, menu });
-    //     }
+        if(courseStudentFound) {
+            return res.status(200).json({error: 'Matricula já existente.'});
+        }
 
-    //     courseFound.update({ description, menu });
-    //     return res.status(200).json(courseFound);
-    // },
+        let courseFound = await Course.findByPk(code_course);
+
+        if(!courseFound){
+            return res.status(404).json({error: 'Curso não encontrado.'});
+        }
+
+        let studentFound = await Student.findByPk(code_student);
+
+        if(!studentFound){
+            return res.status(404).json({error: 'Estudante não encontrado.'});
+        }
+
+        CourseStudent.create({ code_course, code_student });
+        return res.status(201).json({success: 'Matricula criada com sucesso.'});
+    },
 
     async delete(req, res) {
         const { id } = req.params;
 
-        const registrationFound = await Registration.find(student_id);
+        const registrationFound = await Registration.find(id);
 
         if(!registrationFound) {
-            return res.status(400).json({error: 'Matricula não encontrado.'});
+            return res.status(404).json({error: 'Matricula não encontrada.'});
         }
 
         registrationFound.destroy();
