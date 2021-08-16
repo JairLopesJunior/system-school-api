@@ -29,15 +29,15 @@ module.exports = {
     },
 
     async delete(req, res) {
-        const { id } = req.params;
+        const { code_student } = req.params;
 
-        const registrationFound = await Registration.find(id);
+        const cursoStudentFound = await CourseStudent.findByPk(code_student);
 
-        if(!registrationFound) {
+        if(!cursoStudentFound) {
             return res.status(404).json({error: 'Matricula não encontrada.'});
         }
 
-        registrationFound.destroy();
+        cursoStudentFound.destroy();
         return res.status(200).json();
     }
 };

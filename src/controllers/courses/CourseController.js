@@ -9,7 +9,7 @@ module.exports = {
     },
 
     async add(req, res){
-        const { id, description, menu } = req.body;
+        const { course_id, description, menu } = req.body;
 
         if (!description) {
             return res.status(400).json({ error: 'Descrição é um campo obrigatório.' });
@@ -18,7 +18,7 @@ module.exports = {
             return res.status(400).json({ error: 'Ementa é um campo obrigatório.' });
         }
     
-        let courseFound = await Course.findByPk(id);
+        let courseFound = await Course.findByPk(course_id);
     
         if(!courseFound){
             await Course.create({ description, menu });
@@ -40,5 +40,17 @@ module.exports = {
 
         courseFound.destroy();
         await res.status(200).json();
+    },
+
+    async findById(req, res) {
+        const { course_id } = req.params;
+
+        const courseFound = await Course.findByPk(course_id);
+
+        if(!courseFound) {
+            return res.status(404).json({error: 'Curso não encontrado.'});
+        }
+
+        await res.status(200).json(courseFound);
     },
 };

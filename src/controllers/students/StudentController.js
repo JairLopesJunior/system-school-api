@@ -8,13 +8,13 @@ module.exports = {
     },
 
     async add(req, res){
-        const { id, name } = req.body;
+        const { student_id, name } = req.body;
 
         if (!name) {
             return res.status(400).json({ error: 'Nome é um campo obrigatório.' });
         }
 
-        let studentFound = await Student.findByPk(id);
+        let studentFound = await Student.findByPk(student_id);
 
         if(!studentFound){
             await Student.create({ name });
@@ -36,6 +36,18 @@ module.exports = {
 
         studentFound.destroy();
         await res.status(200).json();
+    },
+
+    async findById(req, res) {
+        const { student_id } = req.params;
+
+        const studentFound = await Course.findByPk(student_id);
+
+        if(!studentFound) {
+            return res.status(404).json({error: 'Estudante não encontrado.'});
+        }
+
+        await res.status(200).json(studentFound);
     },
     
 };
