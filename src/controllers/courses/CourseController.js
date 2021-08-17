@@ -1,4 +1,4 @@
-const { Course } = require('../../app/models');
+const { Course, CourseStudent } = require('../../app/models');
 
 
 module.exports = {
@@ -52,8 +52,14 @@ module.exports = {
             return res.status(404).json({error: 'Curso não encontrado.'});
         }
 
-        courseFound.destroy();
-        await res.status(200).json({error: 'Curso deletado com sucesso.'});
+	const cursoStudentFound = await CourseStudent.findOne({ where: { code_course: course_id } })
+
+	if(!cursoStudentFound) {
+	    courseFound.destroy();
+            await res.status(200).json({error: 'Curso deletado com sucesso.'});
+        }
+
+        return res.status(404).json({error: 'Curso não pode ser removido.'});
     },
 
     async findById(req, res) {

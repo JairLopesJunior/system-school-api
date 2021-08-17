@@ -1,4 +1,4 @@
-const { Student } = require('../../app/models');
+const { Student, CourseStudent } = require('../../app/models');
 
 module.exports = {
     async getAll(req, res) {
@@ -8,7 +8,7 @@ module.exports = {
     },
 
     async add(req, res){
-        const { student_id, name } = req.body;
+        const { name } = req.body;
 
         if (!name) {
             return res.status(400).json({ error: 'Nome é um campo obrigatório.' });
@@ -19,13 +19,13 @@ module.exports = {
     },
 
     async update(req, res){
-        const { student_id, name } = req.body;
+        const { id, name } = req.body;
 
         if (!name) {
             return res.status(400).json({ error: 'Nome é um campo obrigatório.' });
         }
-    
-        let studentFound = await Student.findByPk(student_id);
+
+        let studentFound = await Student.findByPk(id);
     
         if(!studentFound){
             return res.status(404).json({ error: 'Estudante inexistente.' });
@@ -44,8 +44,14 @@ module.exports = {
             return res.status(404).json({error: 'Estudante não encontrado.'});
         }
 
-        studentFound.destroy();
-        await res.status(200).json();
+	const cursoStudentFound = await CourseStudent.findOne({ where: { code_student: student_id } })
+
+	if(!cursoStudentFound) {
+	    studentFound.destroy();
+            await res.status(200).json({error: 'Estudante deletado com sucesso.'});
+        }
+
+        return res.status(404).json({error: 'Estudante não pode ser removido.'});
     },
 
    async findById(req, res) {

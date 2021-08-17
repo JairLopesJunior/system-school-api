@@ -28,7 +28,7 @@ module.exports = {
 	let studentFound = await Student.findByPk(registration_id);
 
 	if(!studentFound){
-	    return res.status(404).json({error: 'Estudante não encontrado.'});
+	    return res.status(404).json({error: 'Estudante não matriculado.'});
 	}
 
         const cursoStudentFound = await CourseStudent.findOne({ where: { code_student: registration_id } })
