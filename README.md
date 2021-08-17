@@ -6,13 +6,13 @@ API de sistema escolar desenvolvida com Node.js
 
 Abra o projeto na pasta raiz e execute o seguinte comando para criar o BD e as suas tabelas:
 
-### `npx sequelize db:create; npx sequelize-cli db:migrate
+###  npx sequelize db:create; npx sequelize-cli db:migrate
 
 ## Scripts
 
 Para iniciar o projeto, execute o seguinte comando na pasta raiz:
 
-### `npm run dev
+###  npm run dev
 
 Abra em seu navegador a seguinte URL:
 
