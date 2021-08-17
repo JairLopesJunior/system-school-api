@@ -4,13 +4,7 @@ const { CourseStudent, Course, Student } = require('../../app/models');
 module.exports = {
 
       async add(req, res){
-        const { id, code_course, code_student } = req.body;
-
-        let courseStudentFound = await CourseStudent.findByPk(id);
-
-        if(courseStudentFound) {
-            return res.status(200).json({error: 'Matricula já existente.'});
-        }
+        const { code_course, code_student } = req.body;
 
         let courseFound = await Course.findByPk(code_course);
 
@@ -29,15 +23,21 @@ module.exports = {
     },
 
     async delete(req, res) {
-        const { code_student } = req.params;
+        const { registration_id } = req.params;
 
-        const cursoStudentFound = await CourseStudent.findByPk(code_student);
+	let studentFound = await Student.findByPk(registration_id);
+
+	if(!studentFound){
+	    return res.status(404).json({error: 'Estudante não encontrado.'});
+	}
+
+        const cursoStudentFound = await CourseStudent.findOne({ where: { code_student: registration_id } })
 
         if(!cursoStudentFound) {
             return res.status(404).json({error: 'Matricula não encontrada.'});
         }
 
-        cursoStudentFound.destroy();
+        studentFound.destroy();
         return res.status(200).json();
     }
 };

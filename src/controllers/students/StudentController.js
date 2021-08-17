@@ -14,15 +14,25 @@ module.exports = {
             return res.status(400).json({ error: 'Nome é um campo obrigatório.' });
         }
 
-        let studentFound = await Student.findByPk(student_id);
+        await Student.create({ name });
+        return res.status(201).json({ error: 'Estudante criado com sucesso.' });
+    },
 
+    async update(req, res){
+        const { student_id, name } = req.body;
+
+        if (!name) {
+            return res.status(400).json({ error: 'Nome é um campo obrigatório.' });
+        }
+    
+        let studentFound = await Student.findByPk(student_id);
+    
         if(!studentFound){
-            await Student.create({ name });
-            return res.status(201).json({ name });
+            return res.status(404).json({ error: 'Estudante inexistente.' });
         }
 
         studentFound.update({ name });
-        return res.status(200).json( studentFound );
+        return res.status(200).json( { success: 'Estudante atualizado com sucesso.' } );
     },
 
     async delete(req, res) {
@@ -38,16 +48,16 @@ module.exports = {
         await res.status(200).json();
     },
 
-    async findById(req, res) {
+   async findById(req, res) {
         const { student_id } = req.params;
 
-        const studentFound = await Course.findByPk(student_id);
+        const studentFound = await Student.findByPk(student_id);
 
         if(!studentFound) {
             return res.status(404).json({error: 'Estudante não encontrado.'});
         }
 
         await res.status(200).json(studentFound);
-    },
+   },
     
 };

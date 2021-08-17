@@ -17,16 +17,30 @@ module.exports = {
         if (!menu) {
             return res.status(400).json({ error: 'Ementa é um campo obrigatório.' });
         }
+
+        await Course.create({ description, menu });
+        return res.status(201).json({ error: 'Curso criado com sucesso.' });
+    },
+
+    async update(req, res){
+        const { id, description, menu } = req.body;
+
+        if (!description) {
+            return res.status(400).json({ error: 'Descrição é um campo obrigatório.' });
+        }
+
+        if (!menu) {
+            return res.status(400).json({ error: 'Ementa é um campo obrigatório.' });
+        }
     
-        let courseFound = await Course.findByPk(course_id);
+        let courseFound = await Course.findByPk(id);
     
         if(!courseFound){
-            await Course.create({ description, menu });
-            return res.status(201).json({ description, menu });
+            return res.status(404).json({ error: 'Curso inexistente.' });
         }
 
         courseFound.update({ description, menu });
-        return res.status(200).json(courseFound);
+        return res.status(200).json( { success: 'Curso atualizado com sucesso.' } );
     },
 
     async delete(req, res) {
@@ -39,7 +53,7 @@ module.exports = {
         }
 
         courseFound.destroy();
-        await res.status(200).json();
+        await res.status(200).json({error: 'Curso deletado com sucesso.'});
     },
 
     async findById(req, res) {
