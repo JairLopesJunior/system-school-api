@@ -1,3 +1,0 @@
-// Comandos utilizados
-
-// node sequelize db:create
